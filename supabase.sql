@@ -149,3 +149,46 @@ VALUES
 ('Onyx Coffee Table', 'Low-profile coffee table featuring a nested design in polished black onyx.', 3400, 'Living Room', '110 x 110 x 35 cm', ARRAY['https://images.unsplash.com/photo-1533090161767-e6ffed986c88'], 5),
 ('Heritage Vanity', 'Art Deco inspired dressing table with tri-fold mirror and gold leaf accents.', 3900, 'Bedroom', '120 x 50 x 145 cm', ARRAY['https://images.unsplash.com/photo-1616486338812-3dadae4b4ace'], 2)
 ON CONFLICT DO NOTHING;
+
+-- Automation: Reduce stock_quantity on purchase
+CREATE OR REPLACE FUNCTION public.reduce_stock_on_order()
+RETURNS trigger AS $$
+BEGIN
+  -- Check if enough stock exists
+  IF NOT EXISTS (
+    SELECT 1 FROM public.products 
+    WHERE id = new.product_id AND stock_quantity >= new.quantity
+  ) THEN
+    RAISE EXCEPTION 'Insufficient stock for product %', new.product_id;
+  END IF;
+
+  -- Reduce stock
+  UPDATE public.products
+  SET stock_quantity = stock_quantity - new.quantity
+  WHERE id = new.product_id;
+  
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_order_item_created
+  BEFORE INSERT ON public.order_items
+  FOR EACH ROW EXECUTE PROCEDURE public.reduce_stock_on_order();
+
+-- Automation: Restore stock on cancellation
+CREATE OR REPLACE FUNCTION public.restore_stock_on_cancellation()
+RETURNS trigger AS $$
+BEGIN
+  IF (new.status = 'cancelled' AND old.status != 'cancelled') THEN
+    UPDATE public.products p
+    SET stock_quantity = p.stock_quantity + oi.quantity
+    FROM public.order_items oi
+    WHERE oi.order_id = new.id AND p.id = oi.product_id;
+  END IF;
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_order_cancelled
+  AFTER UPDATE ON public.orders
+  FOR EACH ROW EXECUTE PROCEDURE public.restore_stock_on_cancellation();
