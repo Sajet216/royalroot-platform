@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In | ETHEREAL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Serif:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#775a19",
+                    "on-primary-fixed-variant": "#474746",
+                    "inverse-primary": "#c8c6c5",
+                    "on-primary-container": "#858383",
+                    "tertiary-container": "#291806",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#dbdad7",
+                    "on-primary-fixed": "#1c1b1b",
+                    "tertiary": "#000000",
+                    "inverse-on-surface": "#f2f1ee",
+                    "secondary-fixed-dim": "#e9c176",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-container-low": "#f4f3f1",
+                    "surface": "#faf9f6",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-fixed": "#291806",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffdea5",
+                    "on-background": "#1a1c1a",
+                    "surface-container-highest": "#e3e2e0",
+                    "surface-variant": "#e3e2e0",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#59422c",
+                    "on-surface": "#1a1c1a",
+                    "surface-container": "#efeeeb",
+                    "primary-container": "#1c1b1b",
+                    "primary": "#000000",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#785a1a",
+                    "on-surface-variant": "#444748",
+                    "tertiary-fixed": "#fedcbe",
+                    "on-tertiary-container": "#9a7f65",
+                    "on-secondary-fixed": "#261900",
+                    "tertiary-fixed-dim": "#e1c1a4",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "surface-bright": "#faf9f6",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9f6",
+                    "outline": "#747878",
+                    "outline-variant": "#c4c7c7",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#5f5e5e",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2f312f",
+                    "secondary-container": "#fed488",
+                    "surface-container-high": "#e9e8e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "section-gap": "120px",
+                    "margin-desktop": "80px",
+                    "container-max": "1440px",
+                    "gutter": "32px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Noto Serif"],
+                    "headline-sm": ["Noto Serif"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-xl": ["Noto Serif"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Noto Serif"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9f6; }
+        .serif-text { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .inner-image-stroke {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background overflow-hidden">
+<main class="flex min-h-screen">
+<!-- Left Side: Atmospheric Hero Image -->
+<section class="hidden lg:block lg:w-1/2 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center inner-image-stroke" data-alt="luxury minimalist interior with solid oak dining table, soft morning sunlight casting shadows on warm white walls, high-end architectural furniture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGYXVhj_S2_EiHWGftQGoznnwFsHfCBjUVoYDVO4DCoKKVxQxSEu8F6n0XtnmED4aL4_2mNEk80KGLAMamEVUpNB17Ws0LQmUdW0la3veZpqnFA2_LEFtJVWOhD__KPbohpiHeiN5WPpl3y3o1-JEdvyTBpj_c-S6Kb00A7DizirNPAyrbga7WUFVz51wZMub0n3S-00ic3vZ4MYEiwqXeqB4oTSGLTtTFsEkWOeKWNfyJ-fIanRAh2ABFHqtFiUKCCBQt48E61ig')">
+</div>
+<!-- Brand Overlay -->
+<div class="absolute top-12 left-12">
+<span class="font-display-lg text-display-lg uppercase tracking-[0.2em] text-white opacity-90">ETHEREAL</span>
+</div>
+<!-- Atmospheric Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-md">
+<p class="font-display-lg text-display-lg text-white mb-4">Timeless Architecture for the Modern Soul.</p>
+<p class="font-body-md text-body-md text-white/80 uppercase tracking-widest">Est. 1924</p>
+</div>
+</section>
+<!-- Right Side: Login Form Canvas -->
+<section class="w-full lg:w-1/2 flex flex-col justify-center items-center bg-surface relative">
+<!-- Mobile Brand Logo -->
+<div class="absolute top-8 left-8 lg:hidden">
+<span class="font-display-lg text-headline-sm uppercase tracking-[0.2em] text-on-background">ETHEREAL</span>
+</div>
+<div class="w-full max-w-[440px] px-8 py-12 flex flex-col">
+<div class="mb-12">
+<h1 class="font-display-xl text-display-xl mb-4 text-on-surface">Sign In</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back to RoyalRoot Interiors. Access your bespoke collection.</p>
+</div>
+<form action="#" class="space-y-8" method="POST">
+<!-- Email Field -->
+<div class="space-y-2 group">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block transition-colors group-focus-within:text-secondary" for="email">Email Address</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant px-0 py-3 font-body-md text-body-md text-on-surface focus:ring-0 focus:border-secondary transition-all placeholder:text-outline-variant" id="email" name="email" placeholder="curator@ethereal.com" required="" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="space-y-2 group">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest block transition-colors group-focus-within:text-secondary" for="password">Password</label>
+<a class="font-label-sm text-[10px] text-on-surface-variant hover:text-secondary uppercase tracking-[0.15em] transition-colors" href="#">Forgot Password?</a>
+</div>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant px-0 py-3 font-body-md text-body-md text-on-surface focus:ring-0 focus:border-secondary transition-all placeholder:text-outline-variant" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<!-- Primary Action -->
+<div class="pt-6">
+<button class="w-full bg-primary text-on-primary py-5 font-label-md text-label-md uppercase tracking-[0.2em] hover:bg-secondary transition-all duration-500 rounded-none shadow-[0_10px_20px_rgba(0,0,0,0.1)] active:scale-[0.98]" type="submit">
+                            Sign In
+                        </button>
+</div>
+</form>
+<!-- Footer/Secondary Navigation -->
+<div class="mt-16 pt-8 border-t border-surface-container-high flex flex-col items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant">New to the Grandeur?</p>
+<a class="font-label-md text-label-md text-secondary uppercase tracking-widest hover:border-b hover:border-secondary pb-1 transition-all" href="#">
+                        Create an Account
+                    </a>
+</div>
+</div>
+<!-- Absolute Footer Text -->
+<footer class="absolute bottom-8 w-full px-8 flex justify-between items-center opacity-40">
+<p class="font-label-sm text-[10px] uppercase tracking-[0.2em]">© 2024 ETHEREAL GRANDEUR</p>
+<div class="flex gap-4">
+<a class="font-label-sm text-[10px] uppercase tracking-[0.2em]" href="#">Legal</a>
+<a class="font-label-sm text-[10px] uppercase tracking-[0.2em]" href="#">Privacy</a>
+</div>
+</footer>
+</section>
+</main>
+<!-- Semantic Material Icons Head Injection handled in head above -->
+</body></html>
