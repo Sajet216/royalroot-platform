@@ -58,21 +58,31 @@ export function ProductDashboard() {
 
   const stats = {
     total: products?.length || 0,
-    inStock: products?.filter(p => p.is_available).length || 0,
-    outOfStock: products?.filter(p => p.is_available === false).length || 0
+    totalUnits: products?.reduce((sum, p) => sum + p.stock_quantity, 0) || 0,
+    inStock: products?.filter(p => p.is_available && p.stock_quantity > 0).length || 0,
+    outOfStock: products?.filter(p => !p.is_available || p.stock_quantity === 0).length || 0
   }
 
   return (
     <div className="space-y-12 pb-20">
       {/* Executive Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white border border-primary/5 p-8 rounded-sm shadow-sm flex items-center space-x-6">
           <div className="bg-primary/5 p-4 rounded-full">
             <Package className="w-6 h-6 text-primary/60" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Total Inventory</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Unique Pieces</p>
             <p className="text-3xl font-serif text-primary leading-none mt-1">{stats.total}</p>
+          </div>
+        </div>
+        <div className="bg-white border border-primary/5 p-8 rounded-sm shadow-sm flex items-center space-x-6">
+          <div className="bg-primary/5 p-4 rounded-full">
+            <Package className="w-6 h-6 text-primary/60" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Total Units</p>
+            <p className="text-3xl font-serif text-primary leading-none mt-1">{stats.totalUnits}</p>
           </div>
         </div>
         <div className="bg-white border border-primary/5 p-8 rounded-sm shadow-sm flex items-center space-x-6">
@@ -80,7 +90,7 @@ export function ProductDashboard() {
             <CheckCircle2 className="w-6 h-6 text-secondary" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Publicly Available</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Active Collection</p>
             <p className="text-3xl font-serif text-primary leading-none mt-1">{stats.inStock}</p>
           </div>
         </div>
@@ -89,7 +99,7 @@ export function ProductDashboard() {
             <XCircle className="w-6 h-6 text-red-400" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Reserved / Out</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/30">Out of Stock</p>
             <p className="text-3xl font-serif text-primary leading-none mt-1">{stats.outOfStock}</p>
           </div>
         </div>
@@ -136,6 +146,7 @@ export function ProductDashboard() {
                 <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14 pl-8">Product Name</TableHead>
                 <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14">Category</TableHead>
                 <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14">Price</TableHead>
+                <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14 text-center">Stock</TableHead>
                 <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14 text-center">Status</TableHead>
                 <TableHead className="font-bold text-primary/40 uppercase text-[9px] tracking-[0.3em] h-14 text-right pr-8">Actions</TableHead>
               </TableRow>
@@ -143,11 +154,11 @@ export function ProductDashboard() {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-32 text-primary/30 italic font-serif text-lg animate-pulse">Loading inventory...</TableCell>
+                  <TableCell colSpan={6} className="text-center py-32 text-primary/30 italic font-serif text-lg animate-pulse">Loading inventory...</TableCell>
                 </TableRow>
               ) : filteredProducts.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-32 text-primary/30 italic font-serif text-lg">No records match your inquiry.</TableCell>
+                  <TableCell colSpan={6} className="text-center py-32 text-primary/30 italic font-serif text-lg">No records match your inquiry.</TableCell>
                 </TableRow>
               ) : (
                 filteredProducts.map(product => (
@@ -172,14 +183,15 @@ export function ProductDashboard() {
                     </TableCell>
                     <TableCell className="text-primary/60 text-[10px] font-bold uppercase tracking-widest">{product.category}</TableCell>
                     <TableCell className="font-serif text-primary text-base">${product.price.toLocaleString()}</TableCell>
+                    <TableCell className="text-center font-mono text-xs">{product.stock_quantity}</TableCell>
                     <TableCell className="text-center">
                       <Badge 
                         variant="outline"
                         className={`font-bold text-[9px] uppercase tracking-widest px-3 py-1 rounded-none border-0 ${
-                          product.is_available ? 'bg-secondary/5 text-secondary' : 'bg-red-500/5 text-red-400'
+                          product.is_available && product.stock_quantity > 0 ? 'bg-secondary/5 text-secondary' : 'bg-red-500/5 text-red-400'
                         }`}
                       >
-                        {product.is_available ? 'Available' : 'Reserved'}
+                        {product.is_available && product.stock_quantity > 0 ? 'In Stock' : 'Unavailable'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right py-6 pr-8">

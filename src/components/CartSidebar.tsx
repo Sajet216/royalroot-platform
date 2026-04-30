@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { items, removeItem, totalPrice, totalItems } = useCart()
+  const { items, removeItem, updateQuantity, totalPrice, totalItems } = useCart()
 
   if (!isOpen) return null
 
@@ -27,7 +27,7 @@ export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () 
           <div className="flex items-center gap-3">
             <ShoppingBag className="w-5 h-5 text-secondary" />
             <h2 className="text-xl font-serif text-primary tracking-tight">Your Collection</h2>
-            <span className="text-[10px] font-bold bg-primary/5 px-2 py-1 rounded-full text-primary/40 uppercase tracking-widest">{totalItems} Pieces</span>
+            <span className="text-[10px] font-bold bg-primary/5 px-2 py-1 rounded-full text-primary/40 uppercase tracking-widest">{totalItems} Products</span>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-primary/5">
             <X className="w-5 h-5" />
@@ -39,7 +39,7 @@ export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () 
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center space-y-6 opacity-40">
               <ShoppingBag className="w-12 h-12 stroke-[1px]" />
-              <p className="text-sm font-serif italic">Your registry is currently empty.</p>
+              <p className="text-sm font-serif italic">Your shop is currently empty.</p>
               <Button variant="outline" onClick={onClose} className="rounded-none uppercase text-[10px] tracking-widest font-bold">Begin Selection</Button>
             </div>
           ) : (
@@ -67,8 +67,22 @@ export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     <p className="text-[9px] font-bold uppercase tracking-widest text-primary/40 mt-1">{item.category}</p>
                   </div>
                   <div className="flex justify-between items-end">
-                    <div className="text-[10px] text-primary/60 font-medium">Qty: {item.quantity}</div>
-                    <p className="text-sm font-serif text-primary">${item.price.toLocaleString()}</p>
+                    <div className="flex items-center border border-primary/5 bg-white">
+                      <button 
+                        onClick={() => updateQuantity(item.id, -1)}
+                        className="w-8 h-8 flex items-center justify-center text-primary/40 hover:text-secondary transition-colors"
+                      >
+                        -
+                      </button>
+                      <span className="w-8 text-center text-[10px] font-bold text-primary">{item.quantity}</span>
+                      <button 
+                        onClick={() => updateQuantity(item.id, 1)}
+                        className="w-8 h-8 flex items-center justify-center text-primary/40 hover:text-secondary transition-colors"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p className="text-sm font-serif text-primary">${(item.price * item.quantity).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
@@ -85,7 +99,7 @@ export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 <span>${totalPrice.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-lg font-serif text-primary">
-                <span>Acquisition Total</span>
+                <span>Order Total</span>
                 <span>${totalPrice.toLocaleString()}</span>
               </div>
             </div>
@@ -97,9 +111,6 @@ export function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <p className="text-[10px] text-center text-primary/30 italic">
-                Complimentary white-glove delivery included for heritage pieces.
-              </p>
             </div>
           </div>
         )}

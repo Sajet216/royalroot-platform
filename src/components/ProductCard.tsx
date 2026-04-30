@@ -22,11 +22,15 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
           )}
           <div className="absolute inset-0 ring-1 ring-inset ring-border/10 pointer-events-none" />
-          {!product.is_available && (
-            <div className="absolute top-4 right-4 bg-background/90 backdrop-blur px-3 py-1 text-xs font-semibold tracking-widest uppercase">
-              Sold Out
+          {!product.is_available || product.stock_quantity === 0 ? (
+            <div className="absolute top-4 right-4 bg-background/90 backdrop-blur px-3 py-1 text-xs font-semibold tracking-widest uppercase text-red-500">
+              Out of Collection
             </div>
-          )}
+          ) : product.stock_quantity <= 3 ? (
+            <div className="absolute top-4 right-4 bg-secondary/90 backdrop-blur text-white px-3 py-1 text-[10px] font-bold tracking-widest uppercase">
+              Limited Stock: {product.stock_quantity}
+            </div>
+          ) : null}
         </CardContent>
         <CardFooter className="flex flex-col items-start p-4 pb-6">
           <div className="flex justify-between w-full items-start gap-4">

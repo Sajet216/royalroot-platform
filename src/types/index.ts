@@ -8,6 +8,7 @@ export type Product = {
   dimensions: string;
   images: string[];
   is_available: boolean;
+  stock_quantity: number;
 };
 
 export type Order = {

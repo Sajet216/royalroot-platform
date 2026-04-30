@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS public.products (
   category text NOT NULL,
   dimensions text NOT NULL,
   images text[] DEFAULT '{}'::text[],
-  is_available boolean DEFAULT true
+  is_available boolean DEFAULT true,
+  stock_quantity integer DEFAULT 1 NOT NULL
 );
 
 -- Row Level Security (RLS)
@@ -131,3 +132,20 @@ DO $$ BEGIN
     EXISTS (SELECT 1 FROM public.orders WHERE id = order_id AND user_id = auth.uid())
   );
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- Seed Data: Premium Heritage Collection
+INSERT INTO public.products (name, description, price, category, dimensions, images, stock_quantity)
+VALUES 
+('Lumina Lounge Chair', 'A masterpiece of mid-century design, featuring hand-stitched leather and solid walnut frame.', 3200, 'Living Room', '85 x 80 x 100 cm', ARRAY['https://images.unsplash.com/photo-1592078615290-033ee584e267'], 5),
+('Ethereal Dining Table', 'Sculptural dining table crafted from a single slab of reclaimed oak with blackened steel legs.', 5800, 'Dining Room', '240 x 100 x 75 cm', ARRAY['https://images.unsplash.com/photo-1577145946459-39a500671850'], 2),
+('Obsidian Nightstand', 'Minimalist bedside companion featuring velvet-lined drawers and a honed marble top.', 1200, 'Bedroom', '50 x 45 x 60 cm', ARRAY['https://images.unsplash.com/photo-1532323544230-7191fd51bc1b'], 10),
+('Aurelian Silk Bed', 'Grand bed frame upholstered in rare Italian silk with hand-carved mahogany headboard.', 8500, 'Bedroom', '210 x 220 x 140 cm', ARRAY['https://images.unsplash.com/photo-1505693419148-41280b3459ad'], 3),
+('Celestial Pendant', 'Architectural lighting fixture composed of hand-blown glass and brushed brass.', 1800, 'Lighting', '60 x 60 x 80 cm', ARRAY['https://images.unsplash.com/photo-1513506003901-1e6a229e2d15'], 8),
+('Monolith Office Desk', 'Executive workspace carved from basalt stone and fitted with custom leather inlays.', 7200, 'Office', '200 x 90 x 76 cm', ARRAY['https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd'], 4),
+('Velvet Sovereign Sofa', 'Deep-seated sofa upholstered in rich forest green velvet with brass-capped legs.', 4500, 'Living Room', '240 x 110 x 85 cm', ARRAY['https://images.unsplash.com/photo-1555041469-a586c61ea9bc'], 6),
+('Alabaster Sideboard', 'Refined storage solution featuring fluted marble doors and internal oak cabinetry.', 4200, 'Dining Room', '180 x 45 x 85 cm', ARRAY['https://images.unsplash.com/photo-1595428774223-ef52624120d2'], 3),
+('Prism Bookshelf', 'Geometric shelving unit constructed from smoked glass and polished chrome.', 2900, 'Office', '120 x 35 x 200 cm', ARRAY['https://images.unsplash.com/photo-1594620302200-9a762244a156'], 7),
+('Ivory Cloud Armchair', 'Bouclé upholstered armchair designed for ultimate comfort and sculptural presence.', 2600, 'Living Room', '90 x 95 x 80 cm', ARRAY['https://images.unsplash.com/photo-1567016432779-094069958ea5'], 9),
+('Onyx Coffee Table', 'Low-profile coffee table featuring a nested design in polished black onyx.', 3400, 'Living Room', '110 x 110 x 35 cm', ARRAY['https://images.unsplash.com/photo-1533090161767-e6ffed986c88'], 5),
+('Heritage Vanity', 'Art Deco inspired dressing table with tri-fold mirror and gold leaf accents.', 3900, 'Bedroom', '120 x 50 x 145 cm', ARRAY['https://images.unsplash.com/photo-1616486338812-3dadae4b4ace'], 2)
+ON CONFLICT DO NOTHING;

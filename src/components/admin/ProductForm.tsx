@@ -36,6 +36,7 @@ export function ProductForm({
     dimensions: initialData?.dimensions || '',
     description: initialData?.description || '',
     is_available: initialData?.is_available ?? true,
+    stock_quantity: initialData?.stock_quantity?.toString() || '1',
   })
   
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -72,6 +73,7 @@ export function ProductForm({
         dimensions: formData.dimensions,
         description: formData.description,
         is_available: formData.is_available,
+        stock_quantity: parseInt(formData.stock_quantity),
         images: imageUrls
       }
 
@@ -152,6 +154,18 @@ export function ProductForm({
             onChange={e => setFormData({...formData, dimensions: e.target.value})} 
           />
         </div>
+        <div className="space-y-2 group">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-primary/30 group-focus-within:text-secondary transition-colors">Units in Heritage Inventory</label>
+          <input 
+            type="number" 
+            required 
+            min="0"
+            placeholder="1"
+            className="w-full bg-transparent border-0 border-b border-primary/10 px-0 py-3 text-sm focus:ring-0 focus:border-secondary transition-all outline-none"
+            value={formData.stock_quantity} 
+            onChange={e => setFormData({...formData, stock_quantity: e.target.value})} 
+          />
+        </div>
       </div>
       
       <div className="space-y-2 group">
@@ -182,7 +196,7 @@ export function ProductForm({
           <input 
             type="checkbox" 
             id="is_available" 
-            checked={formData.is_available} 
+            checked={formData.is_available && parseInt(formData.stock_quantity) > 0} 
             onChange={e => setFormData({...formData, is_available: e.target.checked})}
             className="peer h-4 w-4 cursor-pointer appearance-none border border-primary/20 transition-all checked:bg-secondary checked:border-secondary"
           />

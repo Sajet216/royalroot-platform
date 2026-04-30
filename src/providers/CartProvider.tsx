@@ -11,6 +11,7 @@ interface CartContextType {
   items: CartItem[]
   addItem: (product: Product) => void
   removeItem: (productId: string) => void
+  updateQuantity: (productId: string, delta: number) => void
   clearCart: () => void
   totalItems: number
   totalPrice: number
@@ -42,11 +43,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(prev => {
       const existing = prev.find(item => item.id === product.id)
       if (existing) {
+        // Validation: Don't exceed stock
+        if (existing.quantity >= product.stock_quantity) {
+          alert(`The collection only has ${product.stock_quantity} units of this masterpiece.`)
+          return prev
+        }
         return prev.map(item => 
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         )
       }
       return [...prev, { ...product, quantity: 1 }]
+    })
+  }
+
+  const updateQuantity = (productId: string, delta: number) => {
+    setItems(prev => {
+      return prev.map(item => {
+        if (item.id === productId) {
+          const newQty = Math.max(0, item.quantity + delta)
+          // Validation: Don't exceed stock
+          if (newQty > item.stock_quantity) {
+            alert(`The collection only has ${item.stock_quantity} units of this masterpiece.`)
+            return item
+          }
+          return { ...item, quantity: newQty }
+        }
+        return item
+      }).filter(item => item.quantity > 0)
     })
   }
 
