@@ -131,6 +131,7 @@ export function ProductDashboard() {
               </DialogHeader>
               <div className="pt-6">
                 <ProductForm 
+                  key={editingProduct?.id || 'new'}
                   initialData={editingProduct}
                   onSuccess={() => { setIsFormOpen(false); refetch(); }} 
                 />
@@ -183,7 +184,7 @@ export function ProductDashboard() {
                     </TableCell>
                     <TableCell className="text-primary/60 text-[10px] font-bold uppercase tracking-widest">{product.category}</TableCell>
                     <TableCell className="font-serif text-primary text-base">${product.price.toLocaleString()}</TableCell>
-                    <TableCell className="text-center font-mono text-xs">{product.stock_quantity}</TableCell>
+                    <TableCell className="text-center font-mono text-xs">{product.stock_quantity ?? 0}</TableCell>
                     <TableCell className="text-center">
                       <Badge 
                         variant="outline"

@@ -111,7 +111,12 @@ export default function ProductDetail() {
                 </Badge>
               </div>
               <h1 className="text-5xl lg:text-7xl font-serif text-primary tracking-tighter leading-none">{product.name}</h1>
-              <p className="text-3xl font-serif text-primary/80">${product.price.toLocaleString()}</p>
+              <div className="flex items-baseline space-x-6">
+                <p className="text-3xl font-serif text-primary/80">${product.price.toLocaleString()}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-primary/30 border-l border-primary/10 pl-6">
+                  {product.stock_quantity ?? 0} Units in Registry
+                </p>
+              </div>
             </div>
 
             <div className="prose prose-neutral max-w-none">
